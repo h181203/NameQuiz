@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Name Quiz</string>
+    <string name="new_entry">Ny person</string>
+    <string name="all_entries">Se alle personer</string>
+    <string name="quiz">Quiz</string>
+</resources>
