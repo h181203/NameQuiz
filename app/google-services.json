@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "928805645282",
+    "firebase_url": "https://newgamequiz.firebaseio.com",
+    "project_id": "newgamequiz",
+    "storage_bucket": "newgamequiz.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:928805645282:android:a3fb25ab877c159b",
+        "android_client_info": {
+          "package_name": "com.example.randimarie.namequiz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "928805645282-40esa7e59k35g87gvith78psgljofa1m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.randimarie.namequiz",
+            "certificate_hash": "a12093147ef0c7566f6005687b428d3a6e959e02"
+          }
+        },
+        {
+          "client_id": "928805645282-o3bppo0t3kmp0jvkjd5qkfoth6781904.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhWxaGWanwmxj5lAh72E-QUpIxcKvSWXs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "928805645282-o3bppo0t3kmp0jvkjd5qkfoth6781904.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
