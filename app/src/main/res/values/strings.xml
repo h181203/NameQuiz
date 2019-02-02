@@ -4,4 +4,6 @@
     <string name="all_entries">View All Entries</string>
     <string name="quiz">Quiz</string>
     <string name="title_activity_new_entry">NewEntryActivity</string>
+    <string name="name_hint">Enter Name</string>
+    <string name="add_button">Add</string>
 </resources>
