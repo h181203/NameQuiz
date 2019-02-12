@@ -6,4 +6,8 @@
     <string name="title_activity_new_entry">NewEntryActivity</string>
     <string name="name_hint">Enter Name</string>
     <string name="add_button">Add</string>
+    <string name="addName_hint">Enter name</string>
+    <string name="submit_button">Submit</string>
+    <string name="delete_button">Delete</string>
+    <string name="update_button">Update</string>
 </resources>

@@ -1,7 +1,11 @@
 package com.example.randimarie.namequiz;
 
-import android.app.Person;
+
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -12,8 +16,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.io.Serializable;
 import java.util.List;
 
 public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonViewHolder> {
@@ -29,7 +35,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
     @Override
     public PersonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         LayoutInflater inflater = LayoutInflater.from(mCtx);
-        View view = inflater.inflate(R.layout.listperson_layout, parent);
+        View view = inflater.inflate(R.layout.listperson_layout, null);
         PersonViewHolder holder = new PersonViewHolder(view);
         return holder;
     }
@@ -41,7 +47,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
 
         personViewHolder.textView.setText(person.getName());
 
-        personViewHolder.imageview.setImageDrawable(mCtx.getResources().getDrawable(person.getUri()));
+        personViewHolder.imageview.setImageURI(Uri.parse(person.getImage()));
     }
 
     @Override
@@ -50,7 +56,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
     }
 
 
-    class PersonViewHolder extends RecyclerView.ViewHolder{
+    class PersonViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
             ImageView imageview;
             TextView textView;
@@ -61,8 +67,18 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
                 imageview = itemView.findViewById(R.id.imageView);
                 textView = itemView.findViewById(R.id.textViewPersonName);
 
+                itemView.setOnClickListener(this);
 
             }
+
+
+        @Override
+        public void onClick(View v) {
+            Person person = personList.get(getAdapterPosition());
+            Intent intent = new Intent(mCtx, UpdateDeleteActivity.class);
+            intent.putExtra("person", person);
+            mCtx.startActivity(intent);
         }
+    }
 }
 

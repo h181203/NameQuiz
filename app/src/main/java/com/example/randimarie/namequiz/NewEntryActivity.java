@@ -3,13 +3,13 @@ package com.example.randimarie.namequiz;
 import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -26,8 +25,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import static android.os.Environment.getExternalStoragePublicDirectory;
 
@@ -118,11 +115,17 @@ public class NewEntryActivity extends AppCompatActivity {
 
 
         String name = personName.getText().toString();
-        CollectionReference dbProducts = db.collection("persons");
+
 
         Person person = new Person(name, image);
+        addPerson(person);
 
-        dbProducts.add(person)
+        finish();
+    }
+
+    public void addPerson(Person person){
+        CollectionReference dbProducts = db.collection("persons");
+                dbProducts.add(person)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
@@ -137,7 +140,6 @@ public class NewEntryActivity extends AppCompatActivity {
         });
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -149,7 +151,5 @@ public class NewEntryActivity extends AppCompatActivity {
         photoView.getLayoutParams().width = 500;
 
     }
-
-
 
 }

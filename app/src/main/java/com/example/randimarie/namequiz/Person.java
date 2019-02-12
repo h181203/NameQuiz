@@ -1,6 +1,21 @@
 package com.example.randimarie.namequiz;
 
-public class Person {
+import com.google.firebase.database.Exclude;
+
+import java.io.Serializable;
+
+public class Person implements Serializable {
+
+    @Exclude private String id;
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     private String name;
     private String image;
