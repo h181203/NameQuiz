@@ -37,12 +37,19 @@ public class ViewAllActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
         db = FirebaseFirestore.getInstance();
         findPeople();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
 
 
     }
+
+
+
 
     private void findPeople(){
         db.collection("persons").get()

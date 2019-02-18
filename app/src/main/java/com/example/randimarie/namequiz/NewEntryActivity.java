@@ -2,14 +2,17 @@ package com.example.randimarie.namequiz;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -68,8 +71,9 @@ public class NewEntryActivity extends AppCompatActivity {
             }
 
             if(photofile !=null){
-
-                Uri photoURI = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID, photofile);
+                Log.d("asdf", ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)+"");
+                permissionRequests();
+                Uri photoURI = Uri.parse(photofile.toString());
 
                 takePicture.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePicture, 1);
@@ -111,14 +115,17 @@ public class NewEntryActivity extends AppCompatActivity {
 
 
     public void addNewEntry(View view){
-        String image = currentPhotoPath;
+
+        if(currentPhotoPath != "" && personName.getText().toString() != "") {
+            String image = currentPhotoPath;
+
+            String name = personName.getText().toString();
 
 
-        String name = personName.getText().toString();
+            Person person = new Person(name, image);
 
-
-        Person person = new Person(name, image);
-        addPerson(person);
+            addPerson(person);
+        }
 
         finish();
     }
@@ -143,13 +150,25 @@ public class NewEntryActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        Uri selectedImage = data.getData();
-        currentUri = selectedImage;
-        currentPhotoPath = "content://media" + selectedImage.getPath();
-        photoView.setImageURI(selectedImage);
-        photoView.getLayoutParams().height = 500;
-        photoView.getLayoutParams().width = 500;
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case 1:
+                    Bundle extras = data.getExtras();
+                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    photoView.setImageBitmap(imageBitmap);
+                    break;
 
+                case 2:
+                    Uri selectedImage = data.getData();
+                    currentUri = selectedImage;
+                    currentPhotoPath = "content://media" + selectedImage.getPath();
+                    Log.d("asdf", currentPhotoPath);
+                    photoView.setImageURI(selectedImage);
+                    photoView.getLayoutParams().height = 500;
+                    photoView.getLayoutParams().width = 500;
+            }
+
+        }
     }
 
 }

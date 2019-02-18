@@ -1,8 +1,10 @@
 package com.example.randimarie.namequiz;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,33 +24,40 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        input = new EditText(this);
 
         preferences = getSharedPreferences("preferences", MODE_PRIVATE);
         name = preferences.getString("name", null);
 
         String newName = "Submit your name";
         if(name == null) {
+
             noNameDialog(newName);
         }
     }
 
     public void manageDialog(View view){
-        input.setText(name);
+
+
         String editName = "Edit your name";
         noNameDialog(editName);
     }
 
 
-    public void noNameDialog(String title) {
+    private void noNameDialog(String title) {
+        input = new EditText(this);
+        input.setText(name);
         new AlertDialog.Builder(this)
                 .setTitle(title)
                 .setView(input)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String inputName = input.getText().toString();
-
+                        String inputName;
+                        if(input.getText() == null){
+                            inputName = "";
+                        }else {
+                            inputName = input.getText().toString();
+                        }
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.putString("name", inputName);
                         editor.apply();
@@ -60,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openNewEntryActivity(View view) {
+        ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 4);
         Intent intent = new Intent(this, NewEntryActivity.class);
         startActivity(intent);
     }

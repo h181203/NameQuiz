@@ -56,6 +56,11 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
     }
 
 
+    public Person getPerson(int i){
+        return personList.get(i);
+    }
+
+
     class PersonViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
             ImageView imageview;
@@ -79,6 +84,10 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
             intent.putExtra("person", person);
             mCtx.startActivity(intent);
         }
+
+
+
+
     }
 }
 

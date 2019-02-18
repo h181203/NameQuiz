@@ -10,12 +10,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 public class QuizActivity extends AppCompatActivity {
@@ -28,7 +31,7 @@ public class QuizActivity extends AppCompatActivity {
     List<Person> personList;
     List<Person> quizList;
 
-    int score;
+    int score = 0;
     int counter;
 
 
@@ -41,17 +44,17 @@ public class QuizActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
 
         submitText = findViewById(R.id.editText2);
+        db = FirebaseFirestore.getInstance();
+        photoView = findViewById(R.id.imageView2);
+        scoreText = findViewById(R.id.textView);
+        scoreText.setText(null);
 
-       db = FirebaseFirestore.getInstance();
-       photoView = findViewById(R.id.imageView2);
-       scoreText = findViewById(R.id.textView);
-       scoreText.setText(null);
 
+        personList = new ArrayList<>();
 
-       personList = new ArrayList<>();
+        Task<QuerySnapshot> res = db.collection("persons").get();
 
-        db.collection("persons").get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                res.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
@@ -61,12 +64,15 @@ public class QuizActivity extends AppCompatActivity {
 
                             for(DocumentSnapshot d : list){
                                 Person p = d.toObject(Person.class);
+                                p.setId(d.getId());
                                 personList.add(p);
-                            }
 
+                            }
+                            addToListAndShuffle();
                         }
                     }
                 });
+
     }
 
 
@@ -79,20 +85,18 @@ public class QuizActivity extends AppCompatActivity {
         score = 0;
         counter = 0;
 
-            Log.d("asd", "Resume " + personList.size());
-            Log.d("asdf", "" + score);
 
             if (!personList.isEmpty()) {
-                quizList = new ArrayList<Person>(personList);
-                Collections.shuffle(quizList);
-                shownPerson = quizList.get(counter);
-
-                Log.d("asdf", shownPerson.getName());
-
-                setNewImage(Uri.parse(shownPerson.getImage()));
+                addToListAndShuffle();
             }
         }
 
+    private void addToListAndShuffle(){
+        quizList = new ArrayList<Person>(personList);
+        Collections.shuffle(quizList);
+        shownPerson = quizList.get(counter);
+        setNewImage(Uri.parse(shownPerson.getImage()));
+    }
 
 
     public void submitPerson(View view){
